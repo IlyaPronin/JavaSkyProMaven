@@ -1,56 +1,63 @@
 package pro.sky.JavaSkyPro;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-
+@RequestMapping("/calculator")
 public class CalculatorController {
-//    private final CalculatorService calculatorService;
-//    public CalculatorController(CalculatorService calculatorService){
-//        this.calculatorService = calculatorService;
+    private final CalculatorService calculatorService;
+
+    public CalculatorController(CalculatorService calculatorService) {
+        this.calculatorService = calculatorService;
+    }
 
     @GetMapping
-    public String welcome(){
-    return "Welcome";
-}
+    public String welcome() {
+        return "Welcome";
+    }
+
     @GetMapping(path = "/calculator")
-    public String greeting(){
+    public String greeting() {
         return "Добро пожаловать в калькулятор";
     }
-    @GetMapping(path = "/calculator/plus")
-    public String sumNumber(@RequestParam("num1") Double a,@RequestParam("num2") Double b){
-        if(a == null||b == null){
+
+    @GetMapping(path = "/plus")
+    public String sumNumber(@RequestParam("num1") Double a, @RequestParam("num2") Double b) {
+        if (a == null || b == null) {
             return "Не передан один из параметров";
         }
-        return a+"+"+b+"="+(a+b);
+        return a + "+" + b + "=" + calculatorService.plus(a, b);
     }
-    @GetMapping(path = "/calculator/minus")
-    public String minusNumber(@RequestParam("num1") Double a,@RequestParam("num2") Double b){
-        if(a == null||b == null){
+
+    @GetMapping(path = "/minus")
+    public String minusNumber(@RequestParam("num1") Double a, @RequestParam("num2") Double b) {
+        if (a == null || b == null) {
             return "Не передан один из параметров";
         }
-        return a+"-"+b+"="+(a-b);
+        return a + "-" + b + "=" + calculatorService.minus(a, b);
     }
-    @GetMapping(path = "/calculator/multiply")
-    public String multiplyNumber(@RequestParam("num1") Double a,@RequestParam("num2") Double b){
-        if(a == null||b == null){
+
+    @GetMapping(path = "/multiply")
+    public String multiplyNumber(@RequestParam("num1") Double a, @RequestParam("num2") Double b) {
+        if (a == null || b == null) {
             return "Не передан один из параметров";
         }
-        return a+"*"+b+"="+(a*b);
+        return a + "*" + b + "=" + calculatorService.multiply(a, b);
     }
-    @GetMapping(path = "/calculator/divide")
-    public String divideNumber(@RequestParam("num1") Double a,@RequestParam("num2") Double b){
-        if(a == null||b == null){
+
+    @GetMapping(path = "/divide")
+    public String divideNumber(@RequestParam("num1") Double a, @RequestParam("num2") Double b) {
+        if (a == null || b == null) {
             return "Не передан один из параметров";
-        }
-        else if(a==0||b==0){
+        } else if (b == 0) {
             return "На ноль делить нельзя";
         }
-        return a+"/"+b+"="+(a/b);
+        return a + "/" + b + "=" + calculatorService.divide(a, b);
     }
-   }
+}
 
 
 //Написат 5 методов, которые при вызове из браузера делают следующее:
